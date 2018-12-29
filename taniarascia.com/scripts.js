@@ -27,8 +27,14 @@ $(document).ready(function(){
         $('.modal').css('display', 'block');
         $('.overlay').addClass('active');
     });
-    $('.close-modal').click(function(){
+    $('.close-modal, .overlay').click(function(){
         $('.modal').css('display', 'none');
         $('.overlay').removeClass('active');
     });
+    $(document).keyup(function(e) {
+        if (e.keyCode === 27) {
+            $('.modal').css('display', 'none');
+            $('.overlay').removeClass('active');
+        }
+      });
 });
