@@ -1,5 +1,10 @@
+.container .container-content .form-for-comment {
+  padding: 0.5rem;
+  background-color: white;
+}
+
 .container {
-  max-width: 600px;
+  max-width: 640px;
   margin: 0 auto;
   background-color: lightgray;
   text-align: center;
@@ -10,7 +15,7 @@
   margin: 0 auto;
 }
 
-.comment-form {
+.container .container-content .form-for-comment {
   -webkit-box-shadow: 4px 3px 5px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 4px 3px 5px 0px rgba(0, 0, 0, 0.75);
   display: -webkit-box;
@@ -20,5 +25,18 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  border: 1px solid rgba(0, 0, 0, 0.75);
+}
+
+.container .container-content .form-for-comment input, .container .container-content .form-for-comment textarea {
+  margin-bottom: 20px;
+}
+
+.container .container-content .form-for-comment button {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  background-color: cornflowerblue;
+  border-radius: 5px;
 }
 /*# sourceMappingURL=styles.css.map */
