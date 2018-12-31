@@ -1,12 +1,19 @@
-.container .container-content .form-for-comment {
+.container .container-content .comment, .container .container-content .form-for-comment {
   padding: 0.5rem;
   background-color: white;
+  -webkit-box-shadow: 4px 3px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 4px 3px 5px 0px rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.75);
+  margin-bottom: 15px;
 }
 
 .container {
   max-width: 640px;
   margin: 0 auto;
   background-color: lightgray;
+}
+
+.container header {
   text-align: center;
 }
 
@@ -15,9 +22,26 @@
   margin: 0 auto;
 }
 
+.container .container-content .comment {
+  position: relative;
+}
+
+.container .container-content .comment img {
+  float: left;
+  margin-right: 10px;
+}
+
+.container .container-content .comment .icons {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+}
+
+.container .container-content .comment .icons i {
+  padding: 5px;
+}
+
 .container .container-content .form-for-comment {
-  -webkit-box-shadow: 4px 3px 5px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 4px 3px 5px 0px rgba(0, 0, 0, 0.75);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -25,7 +49,6 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  border: 1px solid rgba(0, 0, 0, 0.75);
 }
 
 .container .container-content .form-for-comment input, .container .container-content .form-for-comment textarea {
