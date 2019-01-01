@@ -7,6 +7,22 @@
   margin-bottom: 15px;
 }
 
+.in-update-mode {
+  display: none;
+}
+
+.btn {
+  color: #fff !important;
+  background-color: #009688 !important;
+  padding: 8px 16px;
+  border: none;
+  outline: 0;
+  margin: 5px 0;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .container {
   max-width: 640px;
   margin: 0 auto;
@@ -53,13 +69,5 @@
 
 .container .container-content .form-for-comment input, .container .container-content .form-for-comment textarea {
   margin-bottom: 20px;
-}
-
-.container .container-content .form-for-comment button {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  background-color: cornflowerblue;
-  border-radius: 5px;
 }
 /*# sourceMappingURL=styles.css.map */

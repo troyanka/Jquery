@@ -4,10 +4,12 @@ $(document).ready(function () {
     init();
 
     //Event Listeners 
-    // $('.add-comment').click(addComment);
     $('main').on('click', '.add-comment', addComment);
+    $('main').on('click', '.save-comment', updateComment);
     $('.user-comments').on('click', 'i.fa-trash-alt', deleteComment);
     $('.user-comments').on('click', 'i.fa-pencil-alt', editComment);
+    $('main').on('click', '.delete-comments', deleteAll);
+    $('main').on('click', '.show-dates', showDates);
 
     function init() {
         if (comments) {
@@ -15,24 +17,62 @@ $(document).ready(function () {
         }
     }
 
+    function showDates(){
+        if (comments) {
+            comments.forEach(comment => {
+                        let d = new Date(comment.id),
+                                month = '' + (d.getMonth() + 1),
+                                day = '' + d.getDate(),
+                                year = d.getFullYear();
+                        
+                        if (month.length < 2)
+                            month = '0' + month;
+                        if (day.length < 2)
+                            day = '0' + day;
+                        let date = new Date();
+                        date.toLocaleDateString();
+                        
+                        let dateFormatted =  [day, month, year].join('-');
+
+                        console.log(dateFormatted);
+
+                        $(`div[data-id=${comment.id}] p`).after(`<div class='publish-date'>Published: ${dateFormatted}</div>`);
+            }
+        );
+        }
+    }
+
+    function deleteAll(){
+        $('.user-comments').empty();
+        localStorage.setItem("comments", []);
+    }
+
+    function updateComment(){
+        let updatedComent = $('.in-update-mode');
+        console.log("updatedComent", updatedComent);
+        addComment();
+    }
+
     function editComment(e){
         let closestId = $(e.target).closest('div.comment').data('id'); 
-        console.log("closestId", closestId); 
+        let position = $(e.target).closest('div.comment').position();
+        console.log(position);
+        //console.log("closestId", closestId); 
         $('.form-for-comment').hide();
 
         let myComment = comments.filter(function(comment){
             return comment.id === closestId;
         });
         myComment = myComment[0];
-        console.log("myComment", myComment);
-        let updateForm = `<div class="form-for-comment">
+        //console.log("myComment", myComment);
+        let updateForm = `<div class="form-for-comment update-form">
             <input class="user-name" type="text" name="user-name" placeholder="Your name" value="${myComment.Fname} ${myComment.Lname}"/>
             <textarea name="user-comment" id="user-comment" cols="30" placeholder="Your comment">${myComment.comment}</textarea>
-            <button class="add-comment">Add</button>
+            <button class="btn save-comment">Save</button>
         </div>`;
         let $editedElem = $(`div[data-id=${closestId}]`);
         $(updateForm).insertBefore($editedElem);
-        $editedElem.hide();
+        $editedElem.addClass('in-update-mode');
         //$("main").prepend(updateForm);
     }
 
@@ -70,6 +110,9 @@ $(document).ready(function () {
         </div>`
     
         $('.user-comments').append(commenthtml);
+        $('.update-form').remove();
+        $('.form-for-comment').show();
+
     }
 });
 
