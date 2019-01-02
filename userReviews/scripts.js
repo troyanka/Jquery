@@ -1,6 +1,7 @@
 $(document).ready(function () {
     let comments = localStorage.getItem('comments') ? JSON.parse(localStorage.getItem('comments')) : [];
 
+
     init();
 
     //Event Listeners 
@@ -10,7 +11,7 @@ $(document).ready(function () {
     $('.user-comments').on('click', 'i.fa-pencil-alt', editComment);
     $('main').on('click', '.delete-comments', deleteAll);
     $('main').on('click', '.show-dates', showDates);
-
+	
     function init() {
         if (comments) {
             comments.forEach(comment => addCommentToDOM(comment));
@@ -114,6 +115,21 @@ $(document).ready(function () {
         $('.form-for-comment').show();
 
     }
+
+
+    //TODO: implement this code clone form
+    var newaddress= $(".form-for-comment").clone();
+    newaddress.find('input').each( function () {
+        this.value = '1111';
+    });
+    newaddress.find('textarea').each( function () {
+        this.value = '22222';
+    });
+    //$('main').append(newaddress);
+
+    setTimeout(() => {
+        $('div[data-id=1546413144019]').replaceWith(newaddress);
+    }, 3000);
 });
 
 
