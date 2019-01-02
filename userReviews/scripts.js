@@ -5,8 +5,8 @@ $(document).ready(function () {
     init();
 
     //Event Listeners 
-    $('main').on('click', '.add-comment', addComment);
-    $('main').on('click', '.save-comment', updateComment);
+    $('main').on('click', 'button[value=add]', addComment);
+    $('main').on('click', 'button[value=update]', updateComment);
     $('.user-comments').on('click', 'i.fa-trash-alt', deleteComment);
     $('.user-comments').on('click', 'i.fa-pencil-alt', editComment);
     $('main').on('click', '.delete-comments', deleteAll);
@@ -52,28 +52,52 @@ $(document).ready(function () {
         let updatedComent = $('.in-update-mode');
         console.log("updatedComent", updatedComent);
         addComment();
+        $('.in-update-mode').hide();
     }
 
     function editComment(e){
-        let closestId = $(e.target).closest('div.comment').data('id'); 
-        let position = $(e.target).closest('div.comment').position();
-        console.log(position);
-        //console.log("closestId", closestId); 
-        $('.form-for-comment').hide();
+        let closestDiv = $(e.target).closest('div.comment');
+        let closestId = closestDiv.data('id'); 
+        //let position = closestDiv.position();
 
         let myComment = comments.filter(function(comment){
             return comment.id === closestId;
         });
         myComment = myComment[0];
+        console.log(myComment);
+
+        //TODO: implement this code clone form
+        let clonedForm= $(".form-for-comment").clone();
+        clonedForm.find('input').each( function () {
+            this.value = `${myComment.Fname} ${myComment.Lname}`;
+        });
+        clonedForm.find('textarea').each( function () {
+            this.value = myComment.comment;
+        });
+        clonedForm.find('button').each( function () {
+            this.value = 'update';
+            $(this).html('Update');
+        });
+
+
+        // console.dir(clonedForm);
+        //$('main').append(clonedForm);
+
+        $('.form-for-comment').hide();
+
+        // setTimeout(() => {
+        $(`div[data-id=${closestId}]`).replaceWith(clonedForm);
+        clonedForm.addClass('in-update-mode');
+        // }, 3000);
+
         //console.log("myComment", myComment);
-        let updateForm = `<div class="form-for-comment update-form">
-            <input class="user-name" type="text" name="user-name" placeholder="Your name" value="${myComment.Fname} ${myComment.Lname}"/>
-            <textarea name="user-comment" id="user-comment" cols="30" placeholder="Your comment">${myComment.comment}</textarea>
-            <button class="btn save-comment">Save</button>
-        </div>`;
-        let $editedElem = $(`div[data-id=${closestId}]`);
-        $(updateForm).insertBefore($editedElem);
-        $editedElem.addClass('in-update-mode');
+        // let updateForm = `<div class="form-for-comment update-form">
+        //     <input class="user-name" type="text" name="user-name" placeholder="Your name" value="${myComment.Fname} ${myComment.Lname}"/>
+        //     <textarea name="user-comment" id="user-comment" cols="30" placeholder="Your comment">${myComment.comment}</textarea>
+        //     <button class="btn save-comment">Save</button>
+        // </div>`;
+        // let $editedElem = $(`div[data-id=${closestId}]`);
+        // $(updateForm).insertBefore($editedElem);
         //$("main").prepend(updateForm);
     }
 
@@ -97,6 +121,7 @@ $(document).ready(function () {
         comments.push(commentDetails);
         localStorage.setItem("comments", JSON.stringify(comments));
         addCommentToDOM(commentDetails);
+       $('.form-for-comment').show();
     }
 
     function addCommentToDOM(commentDetails) {
@@ -112,24 +137,23 @@ $(document).ready(function () {
     
         $('.user-comments').append(commenthtml);
         $('.update-form').remove();
-        $('.form-for-comment').show();
+        //$('.form-for-comment').show();
 
     }
 
 
-    //TODO: implement this code clone form
-    var newaddress= $(".form-for-comment").clone();
-    newaddress.find('input').each( function () {
-        this.value = '1111';
-    });
-    newaddress.find('textarea').each( function () {
-        this.value = '22222';
-    });
-    //$('main').append(newaddress);
 
-    setTimeout(() => {
-        $('div[data-id=1546413144019]').replaceWith(newaddress);
-    }, 3000);
+
+    // //TODO: implement this code clone form
+    // let clonedForm= $(".form-for-comment").clone();
+    // clonedForm.find('input').each( function () {
+    //     this.value = `test2222222`;
+    // });
+    // clonedForm.find('textarea').each( function () {
+    //     this.value = 'test3333333';
+    // });
+    // $('main').append(clonedForm);
+
 });
 
 
