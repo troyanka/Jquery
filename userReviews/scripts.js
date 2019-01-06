@@ -48,23 +48,23 @@ $(document).ready(function () {
         localStorage.setItem("comments", []);
     }
 
-    function updateComment(){
-        let updatedComent = $('.in-update-mode');
-        console.log("updatedComent", updatedComent);
+    function updateComment(e){
+        let commentId = $('.in-update-mode').data('updateid');
+        console.log("commentId", commentId);
         addComment();
         $('.in-update-mode').hide();
+        // TODO: implemetn deleing/editing this comment from the Local storage
     }
 
     function editComment(e){
         let closestDiv = $(e.target).closest('div.comment');
         let closestId = closestDiv.data('id'); 
-        //let position = closestDiv.position();
 
         let myComment = comments.filter(function(comment){
             return comment.id === closestId;
         });
         myComment = myComment[0];
-        console.log(myComment);
+        console.log("myComment.id", myComment.id);
 
         //TODO: implement this code clone form
         let clonedForm= $(".form-for-comment").clone();
@@ -78,6 +78,7 @@ $(document).ready(function () {
             this.value = 'update';
             $(this).html('Update');
         });
+        clonedForm.attr('data-updateid', closestId);
 
 
         // console.dir(clonedForm);
@@ -85,10 +86,8 @@ $(document).ready(function () {
 
         $('.form-for-comment').hide();
 
-        // setTimeout(() => {
         $(`div[data-id=${closestId}]`).replaceWith(clonedForm);
         clonedForm.addClass('in-update-mode');
-        // }, 3000);
 
         //console.log("myComment", myComment);
         // let updateForm = `<div class="form-for-comment update-form">
