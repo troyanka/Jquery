@@ -17,54 +17,53 @@ $(document).ready(function () {
         }
     }
 
-    function showDates(){
+    function showDates() {
         if (comments) {
             comments.forEach(comment => {
-                        let d = new Date(comment.id),
-                                month = '' + (d.getMonth() + 1),
-                                day = '' + d.getDate(),
-                                year = d.getFullYear();
-                        
-                        if (month.length < 2)
-                            month = '0' + month;
-                        if (day.length < 2)
-                            day = '0' + day;
-                        let date = new Date();
-                        date.toLocaleDateString();
-                        
-                        let dateFormatted =  [day, month, year].join('-');
+                let d = new Date(comment.id),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
 
-                        console.log(dateFormatted);
+                if (month.length < 2)
+                    month = '0' + month;
+                if (day.length < 2)
+                    day = '0' + day;
+                let date = new Date();
+                date.toLocaleDateString();
 
-                        $(`div[data-id=${comment.id}] p`).after(`<div class='publish-date'>Published: ${dateFormatted}</div>`);
-            }
-        );
+                let dateFormatted = [day, month, year].join('-');
+
+                console.log(dateFormatted);
+
+                $(`div[data-id=${comment.id}] p`).after(`<div class='publish-date'>Published: ${dateFormatted}</div>`);
+            });
         }
     }
 
-    function deleteAll(){
+    function deleteAll() {
         $('.user-comments').empty();
         localStorage.setItem("comments", []);
     }
 
-    function updateComment(){
+    function updateComment() {
         let updatedComent = $('.in-update-mode');
         console.log("updatedComent", updatedComent);
         addComment();
     }
 
-    function editComment(e){
-        let closestId = $(e.target).closest('div.comment').data('id'); 
-        let position = $(e.target).closest('div.comment').position();
-        console.log(position);
+    function editComment(e) {
+        let closestId = $(e.target).closest('div.comment').data('id');
+        //let position = $(e.target).closest('div.comment').position();
+        //console.log(position);
         //console.log("closestId", closestId); 
         $('.form-for-comment').hide();
 
-        let myComment = comments.filter(function(comment){
+        let myComment = comments.filter(function (comment) {
             return comment.id === closestId;
         });
         myComment = myComment[0];
-        //console.log("myComment", myComment);
+        console.log("myComment", myComment);
         let updateForm = `<div class="form-for-comment update-form">
             <input class="user-name" type="text" name="user-name" placeholder="Your name" value="${myComment.Fname} ${myComment.Lname}"/>
             <textarea name="user-comment" id="user-comment" cols="30" placeholder="Your comment">${myComment.comment}</textarea>
@@ -76,9 +75,9 @@ $(document).ready(function () {
         //$("main").prepend(updateForm);
     }
 
-    function deleteComment(e){
-        let closestId = $(e.target).closest('div.comment').data('id'); 
-        comments = comments.filter(function(comment){
+    function deleteComment(e) {
+        let closestId = $(e.target).closest('div.comment').data('id');
+        comments = comments.filter(function (comment) {
             return comment.id != closestId;
         });
         localStorage.setItem("comments", JSON.stringify(comments));
@@ -108,15 +107,10 @@ $(document).ready(function () {
                 <i class="fas fa-trash-alt"></i>
         </div>
         </div>`
-    
+
         $('.user-comments').append(commenthtml);
         $('.update-form').remove();
         $('.form-for-comment').show();
 
     }
 });
-
-
-
-
-
