@@ -11,70 +11,88 @@ $(document).ready(function () {
     $('.user-comments').on('click', 'i.fa-pencil-alt', editComment);
     $('main').on('click', '.delete-comments', deleteAll);
     $('main').on('click', '.show-dates', showDates);
-	
+
     function init() {
         if (comments) {
             comments.forEach(comment => addCommentToDOM(comment));
         }
     }
 
-    function showDates(){
+    function showDates() {
         if (comments) {
             comments.forEach(comment => {
-                        let d = new Date(comment.id),
-                                month = '' + (d.getMonth() + 1),
-                                day = '' + d.getDate(),
-                                year = d.getFullYear();
-                        
-                        if (month.length < 2)
-                            month = '0' + month;
-                        if (day.length < 2)
-                            day = '0' + day;
-                        let date = new Date();
-                        date.toLocaleDateString();
-                        
-                        let dateFormatted =  [day, month, year].join('-');
+                let d = new Date(comment.id),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
 
-                        console.log(dateFormatted);
+                if (month.length < 2)
+                    month = '0' + month;
+                if (day.length < 2)
+                    day = '0' + day;
+                let date = new Date();
+                date.toLocaleDateString();
 
-                        $(`div[data-id=${comment.id}] p`).after(`<div class='publish-date'>Published: ${dateFormatted}</div>`);
-            }
-        );
+                let dateFormatted = [day, month, year].join('-');
+
+                console.log(dateFormatted);
+
+                $(`div[data-id=${comment.id}] p`).after(`<div class='publish-date'>Published: ${dateFormatted}</div>`);
+            });
         }
     }
 
-    function deleteAll(){
+    function deleteAll() {
         $('.user-comments').empty();
         localStorage.setItem("comments", []);
     }
 
-    function updateComment(e){
+    function updateComment(e) {
         let commentId = $('.in-update-mode').data('updateid');
         console.log("commentId", commentId);
+
+        //find the relevant comments, eddit it and save the array back to the lS
+
+        // let commentDetails = {
+        //     Fname: '',
+        //     Lname: '',
+        //     comment: '',
+        //     id: ''
+        // }
+
         addComment();
         $('.in-update-mode').hide();
+
+        comments.map((comment)=>{
+            if(comment.id === commentId){
+                console.log(comment);
+            }
+        });
+
+        console.log("commentObj", commentObj);
+
         // TODO: implemetn deleing/editing this comment from the Local storage
     }
 
-    function editComment(e){
+    function editComment(e) {
         let closestDiv = $(e.target).closest('div.comment');
-        let closestId = closestDiv.data('id'); 
+        let closestId = closestDiv.data('id');
 
-        let myComment = comments.filter(function(comment){
+        let myComment = comments.filter(function (comment) {
             return comment.id === closestId;
         });
         myComment = myComment[0];
         console.log("myComment.id", myComment.id);
 
         //TODO: implement this code clone form
-        let clonedForm= $(".form-for-comment").clone();
-        clonedForm.find('input').each( function () {
+        let clonedForm = $(".form-for-comment").clone();
+        clonedForm.find('input').each(function () {
             this.value = `${myComment.Fname} ${myComment.Lname}`;
         });
-        clonedForm.find('textarea').each( function () {
+        clonedForm.find('textarea').each(function () {
             this.value = myComment.comment;
         });
-        clonedForm.find('button').each( function () {
+        clonedForm.find('button').each(function () {
             this.value = 'update';
             $(this).html('Update');
         });
@@ -100,9 +118,9 @@ $(document).ready(function () {
         //$("main").prepend(updateForm);
     }
 
-    function deleteComment(e){
-        let closestId = $(e.target).closest('div.comment').data('id'); 
-        comments = comments.filter(function(comment){
+    function deleteComment(e) {
+        let closestId = $(e.target).closest('div.comment').data('id');
+        comments = comments.filter(function (comment) {
             return comment.id != closestId;
         });
         localStorage.setItem("comments", JSON.stringify(comments));
@@ -120,7 +138,7 @@ $(document).ready(function () {
         comments.push(commentDetails);
         localStorage.setItem("comments", JSON.stringify(comments));
         addCommentToDOM(commentDetails);
-       $('.form-for-comment').show();
+        $('.form-for-comment').show();
     }
 
     function addCommentToDOM(commentDetails) {
@@ -133,13 +151,12 @@ $(document).ready(function () {
                 <i class="fas fa-trash-alt"></i>
         </div>
         </div>`
-    
+
         $('.user-comments').append(commenthtml);
         $('.update-form').remove();
         //$('.form-for-comment').show();
 
     }
-
 
 
 
