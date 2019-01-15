@@ -1,14 +1,13 @@
 $(document).ready(function () {
     let comments = localStorage.getItem('comments') ? JSON.parse(localStorage.getItem('comments')) : [];
 
-
     init();
 
     //Event Listeners 
-    $('main').on('click', 'button[value=add]', addComment);
+    $('main').on('click', 'button[value=add]', addNewComment);
     $('main').on('click', 'button[value=update]', updateComment);
     $('.user-comments').on('click', 'i.fa-trash-alt', deleteComment);
-    $('.user-comments').on('click', 'i.fa-pencil-alt', editComment);
+    $('.user-comments').on('click', 'i.fa-pencil-alt', UpdateModeOn);
     $('main').on('click', '.delete-comments', deleteAll);
     $('main').on('click', '.show-dates', showDates);
 
@@ -35,8 +34,6 @@ $(document).ready(function () {
 
                 let dateFormatted = [day, month, year].join('-');
 
-                console.log(dateFormatted);
-
                 $(`div[data-id=${comment.id}] p`).after(`<div class='publish-date'>Published: ${dateFormatted}</div>`);
             });
         }
@@ -47,44 +44,36 @@ $(document).ready(function () {
         localStorage.setItem("comments", []);
     }
 
-    function updateComment(e) {
-        let commentId = $('.in-update-mode').data('updateid');
-        console.log("commentId", commentId);
+    function updateComment() {
+        console.log('%c *** Inside updateComment', 'color: purple');
+        let id = $('.in-update-mode').data('updateid');
 
-        //find the relevant comments, eddit it and save the array back to the lS
+        //get data from the form
+        let details = getDataFromForm();
 
-        // let commentDetails = {
-        //     Fname: '',
-        //     Lname: '',
-        //     comment: '',
-        //     id: ''
-        // }
+        let index = comments.findIndex(comment => comment.id === id);
+        let updatedComment = comments[index];
+        updatedComment.Fname = details.Fname;
+        updatedComment.comment = details.comment;
+        addCommentToDOM(updatedComment);
 
-        addComment();
+        localStorage.setItem("comments", JSON.stringify(comments));
+
         $('.in-update-mode').hide();
-
-        comments.map((comment)=>{
-            if(comment.id === commentId){
-                console.log(comment);
-            }
-        });
-
-        console.log("commentObj", commentObj);
-
-        // TODO: implemetn deleing/editing this comment from the Local storage
     }
 
-    function editComment(e) {
-        let closestDiv = $(e.target).closest('div.comment');
-        let closestId = closestDiv.data('id');
+    function UpdateModeOn(e) {
+        console.log('%c ***Inside UpdateModeOn', 'color: purple');
+        //turn on update mode
+        let closestId = $(e.target).closest('div.comment').data('id');
 
         let myComment = comments.filter(function (comment) {
             return comment.id === closestId;
         });
         myComment = myComment[0];
-        console.log("myComment.id", myComment.id);
+        console.log("Comment id in update mode:", myComment.id);
 
-        //TODO: implement this code clone form
+        //Fill in 'update form' with values
         let clonedForm = $(".form-for-comment").clone();
         clonedForm.find('input').each(function () {
             this.value = `${myComment.Fname} ${myComment.Lname}`;
@@ -98,24 +87,10 @@ $(document).ready(function () {
         });
         clonedForm.attr('data-updateid', closestId);
 
-
-        // console.dir(clonedForm);
-        //$('main').append(clonedForm);
-
         $('.form-for-comment').hide();
 
         $(`div[data-id=${closestId}]`).replaceWith(clonedForm);
         clonedForm.addClass('in-update-mode');
-
-        //console.log("myComment", myComment);
-        // let updateForm = `<div class="form-for-comment update-form">
-        //     <input class="user-name" type="text" name="user-name" placeholder="Your name" value="${myComment.Fname} ${myComment.Lname}"/>
-        //     <textarea name="user-comment" id="user-comment" cols="30" placeholder="Your comment">${myComment.comment}</textarea>
-        //     <button class="btn save-comment">Save</button>
-        // </div>`;
-        // let $editedElem = $(`div[data-id=${closestId}]`);
-        // $(updateForm).insertBefore($editedElem);
-        //$("main").prepend(updateForm);
     }
 
     function deleteComment(e) {
@@ -127,7 +102,8 @@ $(document).ready(function () {
         $(`div[data-id=${closestId}]`).remove();
     }
 
-    function addComment() {
+    function getDataFromForm() {
+        console.log('%c ***Inside getDataFromForm', 'color: purple');
         let fullname = $('.form-for-comment input[name="user-name"]').val().split(' ');
         let commentDetails = {
             Fname: fullname[0],
@@ -135,6 +111,12 @@ $(document).ready(function () {
             comment: $('.form-for-comment #user-comment').val(),
             id: new Date().getTime()
         }
+        console.log("commentDetails", commentDetails);
+        return commentDetails;
+    }
+
+    function addNewComment() {
+        let commentDetails = getDataFromForm();
         comments.push(commentDetails);
         localStorage.setItem("comments", JSON.stringify(comments));
         addCommentToDOM(commentDetails);
@@ -154,20 +136,5 @@ $(document).ready(function () {
 
         $('.user-comments').append(commenthtml);
         $('.update-form').remove();
-        //$('.form-for-comment').show();
-
     }
-
-
-
-    // //TODO: implement this code clone form
-    // let clonedForm= $(".form-for-comment").clone();
-    // clonedForm.find('input').each( function () {
-    //     this.value = `test2222222`;
-    // });
-    // clonedForm.find('textarea').each( function () {
-    //     this.value = 'test3333333';
-    // });
-    // $('main').append(clonedForm);
-
 });
