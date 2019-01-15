@@ -32,11 +32,12 @@
     }
 
     .container-content {
-        width: 90%;
+        //width: 90%;
         margin: 0 auto;
 
         .comment{
-            position: relative;
+            display: flex;
+            //position: relative;
             @extend %wrapper;
 
             img{
@@ -44,9 +45,9 @@
                 margin-right: 10px;
             }
             .icons{
-                position: absolute;
-                top: 7px;
-                right: 7px; 
+                //position: absolute;
+                //top: 7px;
+                //right: 7px; 
                 
                 i{
                     padding: 5px;
