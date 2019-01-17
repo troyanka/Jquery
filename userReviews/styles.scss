@@ -1,56 +1,89 @@
-%wrapper{
+%wrapper {
     padding: 0.5rem;
-    background-color: white;
-    -webkit-box-shadow: 4px 3px 5px 0px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 4px 3px 5px 0px rgba(0, 0, 0, 0.75);
-    box-shadow: 4px 3px 5px 0px rgba(0, 0, 0, 0.75);
-    border: 1px solid rgba(0, 0, 0, 0.75);
     margin-bottom: 15px;
+    //background-color: #f5f6f7;
+    border: 1px solid #dddfe2;
+    border-radius: 3px;
 }
 
-.in-update-mode{
+body{
+    background-color: #e9ebee;
+    font-family: 'Aleo', serif;
+}
+
+.in-update-mode {
     display: none;
 }
 
-.btn{
-    color: #fff!important;
-    background-color: #009688!important;
-    padding: 8px 16px;
+.btn {
+    color: #fff !important;
+    background-color: #009688;
     border: none;
     outline: 0;
-    margin: 5px 0;
+    margin: 8px 0;
     width: fit-content;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 6px;
 }
 
 .container {
     max-width: 640px;
     margin: 0 auto;
-    background-color: lightgray;
+    max-width: 640px;
+    margin: 0 auto;
+    box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
+    background-color: #fff;
+    border-radius: 8px 8px 0 0;
 
-    header{
+    .user-comments {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+    }
+
+
+    header {
         text-align: center;
     }
 
     .container-content {
-        //width: 90%;
         margin: 0 auto;
+        padding: 1%;
 
-        .comment{
+        .comment {
             display: flex;
-            //position: relative;
+            flex-basis: 45%;
             @extend %wrapper;
 
-            img{
-                float: left;
-                margin-right: 10px;
+            .comment-content {
+                flex-basis: 80%;
+
+                h3 {
+                    margin-top: 0;
+                }
+
+                .publish-date{
+                    color: #139600;
+                }
             }
-            .icons{
-                //position: absolute;
-                //top: 7px;
-                //right: 7px; 
-                
-                i{
+
+            img {
+                margin-right: 10px;
+                align-self: flex-start;
+            }
+
+            .icons {
+                flex-basis: 10%;
+                display: flex;
+
+                i {
                     padding: 5px;
+                }
+                i:hover{
+                    zoom: 110%;
+                    cursor: pointer;
                 }
             }
         }
@@ -59,15 +92,13 @@
             @extend %wrapper;
             display: flex;
             flex-direction: column;
-           
+            border: 1px solid #414449;
 
-
-            input, textarea{
-                margin-bottom: 20px; 
+            input,
+            textarea {
+                margin-bottom: 20px;
+                padding: 1%;
             }
         }
     }
 }
-
-
-

@@ -126,8 +126,10 @@ $(document).ready(function () {
     function addCommentToDOM(commentDetails) {
         let commenthtml = `<div class="comment" data-id=${commentDetails.id}>
         <img src="https://ui-avatars.com/api/?name=${commentDetails.Fname}+${commentDetails.Lname}"/>
-        <h3>${commentDetails.Fname} ${commentDetails.Lname}</h3>
-        <p>${commentDetails.comment}</p>
+        <div class="comment-content">
+            <h3>${commentDetails.Fname} ${commentDetails.Lname}</h3>
+            <p>${commentDetails.comment}</p>
+        </div>
         <div class="icons">
                 <i class="fas fa-pencil-alt"></i>
                 <i class="fas fa-trash-alt"></i>
